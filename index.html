@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Charity Water Orion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <img id="sceneImage" src="scene1.png">
+
+  <h1 id="title"></h1>
+  <p id="message"></p>
+
+  <!-- SLIDER -->
+  <div id="sliderArea">
+    <div class="track">
+      <div class="zone"></div>
+      <div class="marker" id="marker"></div>
+    </div>
+    <button id="checkBtn">Check Skill</button>
+  </div>
+
+  <!-- FIREWORKS -->
+  <canvas id="fireworks" class="hidden"></canvas>
+
+  <div class="buttons">
+    <button id="nextBtn" disabled>Next</button>
+    <button id="restartBtn" class="hidden">Restart Mission</button>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
