@@ -44,12 +44,12 @@ const scenes = [
   }
 ];
 
-/* SLIDER */
+/* SLIDER (SLOWED DOWN) */
 let pos = 0;
 let dir = 1;
 
 setInterval(() => {
-  pos += dir;
+  pos += dir * 0.5; // 🔥 slowed down
 
   if (pos >= 100) dir = -1;
   if (pos <= 0) dir = 1;
@@ -84,7 +84,7 @@ function loadScene() {
 
 /* CHECK SKILL */
 checkBtn.onclick = () => {
-  if (pos >= 40 && pos <= 60) {
+  if (pos >= 35 && pos <= 65) { // 🔥 bigger hit window
     step++;
 
     if (scene === 2) {
@@ -171,3 +171,4 @@ function stopFireworks() {
 
 /* INIT */
 loadScene();
+
