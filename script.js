@@ -1,22 +1,21 @@
-const img = document.getElementById("sceneImage");
-const title = document.getElementById("title");
-const message = document.getElementById("message");
+const img = document.getElementById("sceneImage")
+const title = document.getElementById("title")
+const message = document.getElementById("message")
 
-const nextBtn = document.getElementById("nextBtn");
-const restartBtn = document.getElementById("restartBtn");
+const nextBtn = document.getElementById("nextBtn")
+const restartBtn = document.getElementById("restartBtn")
 
-const sliderArea = document.getElementById("sliderArea");
-const checkBtn = document.getElementById("checkBtn");
-const marker = document.getElementById("marker");
+const sliderArea = document.getElementById("sliderArea")
+const checkBtn = document.getElementById("checkBtn")
+const marker = document.getElementById("marker")
 
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("fireworks")
+const ctx = canvas.getContext("2d")
 
-let scene = 0;
-let step = 0;
-let success = false;
+let scene = 0
+let step = 0
+let success = false
 
-/* SCENES */
 const scenes = [
   {
     img: "scene1.png",
@@ -42,94 +41,93 @@ const scenes = [
     message: "Because of you, clean water reaches those who need it most. Prepare for Water Mission 2.",
     steps: 0
   }
-];
+]
 
-/* SLIDER (SLOWED DOWN) */
-let pos = 0;
-let dir = 1;
+/* SLIDER (FIXED SPEED) */
+let pos = 0
+let dir = 1
 
 setInterval(() => {
-  pos += dir * 0.5; // 🔥 slowed down
+  pos += dir * 0.5
 
-  if (pos >= 100) dir = -1;
-  if (pos <= 0) dir = 1;
+  if (pos >= 100) dir = -1
+  if (pos <= 0) dir = 1
 
-  marker.style.left = pos + "%";
-}, 10);
+  marker.style.left = pos + "%"
+}, 10)
 
 /* LOAD SCENE */
 function loadScene() {
-  const s = scenes[scene];
+  const s = scenes[scene]
 
-  img.src = s.img;
-  title.textContent = s.title;
-  message.textContent = s.message;
+  img.src = s.img
+  title.textContent = s.title
+  message.textContent = s.message
 
-  nextBtn.disabled = true;
-  success = false;
-  step = 0;
+  success = false
+  nextBtn.disabled = true
+  step = 0
 
   if (s.steps === 0) {
-    sliderArea.style.display = "none";
-    nextBtn.style.display = "none";
-    restartBtn.classList.remove("hidden");
-    startFireworks();
+    sliderArea.style.display = "none"
+    nextBtn.style.display = "none"
+    restartBtn.classList.remove("hidden")
+    startFireworks()
   } else {
-    sliderArea.style.display = "block";
-    nextBtn.style.display = "inline-block";
-    restartBtn.classList.add("hidden");
-    stopFireworks();
+    sliderArea.style.display = "block"
+    nextBtn.style.display = "inline-block"
+    restartBtn.classList.add("hidden")
+    stopFireworks()
   }
 }
 
-/* CHECK SKILL */
+/* CHECK */
 checkBtn.onclick = () => {
-  if (pos >= 35 && pos <= 65) { // 🔥 bigger hit window
-    step++;
+  if (pos >= 35 && pos <= 65) {
+    step++
 
     if (scene === 2) {
-      if (step === 1) message.textContent = "Landing confirmed.";
-      if (step === 2) message.textContent = "Water loaded.";
+      if (step === 1) message.textContent = "Landing confirmed."
+      if (step === 2) message.textContent = "Water loaded."
       if (step === 3) {
-        message.textContent = "Launch ready.";
-        success = true;
-        nextBtn.disabled = false;
+        message.textContent = "Launch ready."
+        success = true
+        nextBtn.disabled = false
       }
     } else {
-      success = true;
-      nextBtn.disabled = false;
+      success = true
+      nextBtn.disabled = false
     }
 
   } else {
-    alert("Missed, try again");
+    alert("Missed, try again")
   }
-};
+}
 
 /* NEXT */
 nextBtn.onclick = () => {
-  if (!success) return;
-
-  scene++;
-  loadScene();
-};
+  if (!success) return
+  scene++
+  loadScene()
+}
 
 /* RESTART */
 restartBtn.onclick = () => {
-  scene = 0;
-  loadScene();
-};
+  scene = 0
+  loadScene()
+}
 
 /* FIREWORKS */
 function startFireworks() {
-  canvas.classList.remove("hidden");
-  canvas.width = window.innerWidth;
-  canvas.height = 200;
+  canvas.classList.remove("hidden")
+  canvas.width = window.innerWidth
+  canvas.height = 200
 
-  let particles = [];
+  let particles = []
 
   function explode() {
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
+    let x = Math.random() * canvas.width
+    let y = Math.random() * canvas.height
 
     for (let i = 0; i < 20; i++) {
       particles.push({
@@ -138,37 +136,37 @@ function startFireworks() {
         vx: (Math.random() - 0.5) * 4,
         vy: (Math.random() - 0.5) * 4,
         life: 50
-      });
+      })
     }
   }
 
   function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    if (Math.random() < 0.1) explode();
+    if (Math.random() < 0.1) explode()
 
     particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life--;
+      p.x += p.vx
+      p.y += p.vy
+      p.life--
 
-      ctx.fillStyle = "yellow";
-      ctx.fillRect(p.x, p.y, 3, 3);
-    });
+      ctx.fillStyle = "yellow"
+      ctx.fillRect(p.x, p.y, 3, 3)
+    })
 
-    particles = particles.filter(p => p.life > 0);
+    particles = particles.filter(p => p.life > 0)
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(loop)
   }
 
-  loop();
+  loop()
 }
 
 function stopFireworks() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  canvas.classList.add("hidden");
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  canvas.classList.add("hidden")
 }
 
 /* INIT */
-loadScene();
+loadScene()
 
